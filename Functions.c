@@ -180,7 +180,6 @@ void RemoveNode(Graph *MyGraph, int Rem)
     int MAX = REM->ConNum;
     for (int i = 0; i < MAX; i++)
     {
-        printf("%d",REM->Cons[i]->Val);
         RemoveCon(MyGraph, Rem, REM->Cons[i]->Val);
     }
     free(REM->Cons);
