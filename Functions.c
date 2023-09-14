@@ -19,7 +19,7 @@ Graph *CreateGraph()
 // Adds a node to an existing graph
 void CreateNode(Graph *MyGraph, int NUM)
 {
-    if (NUM < MyGraph->NodeNum && MyGraph->Nodes[NUM - 1] == NULL)
+    if (NUM <= MyGraph->NodeNum && MyGraph->Nodes[NUM - 1] == NULL)
     {
         MyGraph->Nodes[NUM - 1] = (Node *)malloc(sizeof(Node));
         if (MyGraph->Nodes[NUM - 1] == NULL)
