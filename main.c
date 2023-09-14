@@ -9,6 +9,7 @@ void ShowInstructions()
     printf("Use con 'num1' 'num2' to connect two existing nodes\n");
     printf("Use remnode 'num' to remove a node\n");
     printf("Use remcon 'num1' 'num2' to remove a connection");
+    printf("Use show to print the graph in a png picture!\n");
     printf("Use help to show instructions again\n");
 }
 int main(void)
@@ -29,7 +30,13 @@ int main(void)
                 {
                     ShowInstructions();
                 }
-                else if(strcmp(com, "exit") == 0){
+                else if (strcmp(com, "show") == 0)
+                {
+                    ExportToDot(Graph_1, "Test.dot");
+                    system("dot -Tpng Test.dot -o output.png");
+                }
+                else if (strcmp(com, "exit") == 0)
+                {
                     exit(0);
                 }
                 else
@@ -37,7 +44,7 @@ int main(void)
                     printf("Invalid command!\n");
                 }
             }
-            if (sscanf(buffer, "%10s %d %d", com, &node_1, &node_2) == 2)
+            else if (sscanf(buffer, "%10s %d %d", com, &node_1, &node_2) == 2)
             {
                 if (strcmp(com, "node") == 0 && node_1 > 0 && (node_1 == Graph_1->NodeNum + 1 || Graph_1->Nodes[node_1 - 1] == NULL))
                 {
@@ -60,9 +67,40 @@ int main(void)
                     printf("Invalid command!\n");
                 }
             }
+            else if (sscanf(buffer, "%10s %d %d", com, &node_1, &node_2) == 3)
+            {
+                if (strcmp(com, "con") == 0)
+                {
+                    if (node_1 > 0 && node_1 < Graph_1->NodeNum + 1 && Graph_1->Nodes[node_1 - 1] != NULL && node_2 > 0 && node_2 < Graph_1->NodeNum + 1 && Graph_1->Nodes[node_2 - 1] != NULL)
+                    {
+                        AddCon(Graph_1, node_1, node_2);
+                    }
+                    else if (!(node_1 > 0 && node_1 < Graph_1->NodeNum + 1 && Graph_1->Nodes[node_1 - 1] != NULL && node_2 > 0 && node_2 < Graph_1->NodeNum + 1 && Graph_1->Nodes[node_2 - 1] != NULL))
+                    {
+                        printf("Please select valid node indexes to connect!\n");
+                    }
+                }
+                else if (strcmp(com, "remcon") == 0)
+                {
+                    if (node_1 > 0 && node_1 < Graph_1->NodeNum + 1 && Graph_1->Nodes[node_1 - 1] != NULL && node_2 > 0 && node_2 < Graph_1->NodeNum + 1 && Graph_1->Nodes[node_2 - 1] != NULL)
+                    {
+                        RemoveCon(Graph_1, node_1, node_2);
+                    }
+                    else
+                    {
+                        printf("Please select valid nodes!\n");
+                    }
+                }
+                else
+                {
+                    printf("Invalid Command!\n");
+                }
+            }
+            else
+            {
+                printf("Invalid Command!\n");
+            }
         }
-        char newline;
-        // while ((newline = getchar()) != '\n' && newline != EOF);
     }
     DeallocateGraph(Graph_1);
     return 0;
