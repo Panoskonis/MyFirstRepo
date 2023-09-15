@@ -37,7 +37,11 @@ void CreateNode(Graph *MyGraph, int NUM)
         printf("Node Already exists! Please select a larger node number!\n");
         return;
     }
-
+    if (NUM > MyGraph->NodeNum + 1)
+    {
+        printf("Select a node number that is one greater than the current largest or that has been deleted!\n");
+        return;
+    }
     MyGraph->NodeNum++;
     MyGraph->Nodes = realloc(MyGraph->Nodes, MyGraph->NodeNum * sizeof(Node *));
     if (MyGraph->Nodes == NULL)
