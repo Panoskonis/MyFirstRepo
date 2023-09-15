@@ -4,7 +4,6 @@
 #include "Functions.h"
 void ShowInstructions()
 {
-
     printf("Use: node 'num' to create a node\n");
     printf("Use con 'num1' 'num2' to connect two existing nodes\n");
     printf("Use remnode 'num' to remove a node\n");
@@ -46,21 +45,28 @@ int main(void)
             }
             else if (sscanf(buffer, "%10s %d %d", com, &node_1, &node_2) == 2)
             {
-                if (strcmp(com, "node") == 0 && node_1 > 0 && (node_1 == Graph_1->NodeNum + 1 || Graph_1->Nodes[node_1 - 1] == NULL))
+                if (strcmp(com, "node") == 0)
                 {
-                    CreateNode(Graph_1, node_1);
+                    if (node_1 > 0 && (node_1 == Graph_1->NodeNum + 1 || Graph_1->Nodes[node_1 - 1] == NULL))
+                    {
+                        CreateNode(Graph_1, node_1);
+                    }
+                    else
+                    {
+                        printf("Invalid Node number. Please select a number that is larger than the max current node or has been deleted!\n");
+                    }
                 }
-                else if (strcmp(com, "node") == 0 && (node_1 < 0 || !(node_1 == Graph_1->NodeNum + 1 || Graph_1->Nodes[node_1 - 1] == NULL)))
+                else if (strcmp(com, "remnode") == 0 )
                 {
-                    printf("Invalid Node number. Please select a number that is larger than the max current node or has been deleted!\n");
-                }
-                else if (strcmp(com, "remnode") == 0 && node_1 > 0 && node_1 < Graph_1->NodeNum + 1 && Graph_1->Nodes[node_1 - 1] != NULL)
-                {
-                    RemoveNode(Graph_1, node_1);
-                }
-                else if (strcmp(com, "remnode") == 0 && (node_1 <= 0 || node_1 >= Graph_1->NodeNum + 1 || Graph_1->Nodes[node_1 - 1] == NULL))
-                {
-                    printf("Invalid Node to remove\n");
+                    if (node_1 > 0 && node_1 < Graph_1->NodeNum + 1 && Graph_1->Nodes[node_1 - 1] != NULL)
+                    {
+
+                        RemoveNode(Graph_1, node_1);
+                    }
+                    else
+                    {
+                        printf("Invalid Node to remove\n");
+                    }
                 }
                 else
                 {
@@ -75,7 +81,7 @@ int main(void)
                     {
                         AddCon(Graph_1, node_1, node_2);
                     }
-                    else if (!(node_1 > 0 && node_1 < Graph_1->NodeNum + 1 && Graph_1->Nodes[node_1 - 1] != NULL && node_2 > 0 && node_2 < Graph_1->NodeNum + 1 && Graph_1->Nodes[node_2 - 1] != NULL))
+                    else
                     {
                         printf("Please select valid node indexes to connect!\n");
                     }
